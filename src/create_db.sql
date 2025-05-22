@@ -1,9 +1,10 @@
+-- Tạo database
 CREATE DATABASE IF NOT EXISTS thanhtoantragop;
 USE thanhtoantragop;
 
 -- Bảng khách hàng
 CREATE TABLE tblClient (
-    id VARCHAR(20) PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50),
     idCard VARCHAR(20),
     tel VARCHAR(20),
@@ -14,7 +15,7 @@ CREATE TABLE tblClient (
 
 -- Bảng đối tác
 CREATE TABLE tblPartner (
-    id VARCHAR(20) PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
     address VARCHAR(255),
     tel VARCHAR(20)
@@ -22,31 +23,31 @@ CREATE TABLE tblPartner (
 
 -- Bảng mặt hàng
 CREATE TABLE tblItem (
-    id VARCHAR(20) PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
     unit VARCHAR(20),
-    price INTEGER,
-    tblPartnerid VARCHAR(20),
+    price INT,
+    tblPartnerid INT,
     FOREIGN KEY (tblPartnerid) REFERENCES tblPartner(id)
 );
 
 -- Bảng hợp đồng
 CREATE TABLE tblContract (
-    id VARCHAR(20) PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     date DATE,
-    loanAmount INTEGER,
+    loanAmount INT,
     interestRate FLOAT(10),
-    tblClientid VARCHAR(20),
-    tblPartnerid VARCHAR(20),
+    tblClientid INT,
+    tblPartnerid INT,
     FOREIGN KEY (tblClientid) REFERENCES tblClient(id),
     FOREIGN KEY (tblPartnerid) REFERENCES tblPartner(id)
 );
 
--- Bảng chi tiết hợp đồng
+-- Bảng chi tiết hợp đồng (khóa chính là (tblContractid, tblItemid))
 CREATE TABLE tblItemDetail (
-    quantity INTEGER,
-    tblContractid VARCHAR(20),
-    tblItemid VARCHAR(20),
+    quantity INT,
+    tblContractid INT,
+    tblItemid INT,
     PRIMARY KEY (tblContractid, tblItemid),
     FOREIGN KEY (tblContractid) REFERENCES tblContract(id),
     FOREIGN KEY (tblItemid) REFERENCES tblItem(id)
@@ -54,51 +55,55 @@ CREATE TABLE tblItemDetail (
 
 -- Bảng hóa đơn
 CREATE TABLE tblBill (
-    id VARCHAR(20) PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     dueDate DATE,
-    amountDue INTEGER,
-    amountPaid INTEGER,
+    amountDue INT,
+    amountPaid INT,
     paymentDate DATE,
     status VARCHAR(255),
-    tblClientid VARCHAR(20),
-    tblContractid VARCHAR(20),
+    tblClientid INT,
+    tblContractid INT,
     FOREIGN KEY (tblClientid) REFERENCES tblClient(id),
     FOREIGN KEY (tblContractid) REFERENCES tblContract(id)
 );
 
--- Thêm khách hàng
-INSERT INTO tblClient VALUES 
-('C001', 'Nguyen Van A', '123456789', '0912345678', 'Hanoi', 'a@gmail.com', 'Khách quen'),
-('C002', 'Tran Thi B', '987654321', '0987654321', 'HCM', 'b@gmail.com', 'Ưu tiên'),
-('C003', 'Le Van C', '555555555', '0900000000', 'Da Nang', 'c@gmail.com', '');
+-- ---------------------------------------------------
+-- Dữ liệu mẫu
+-- ---------------------------------------------------
 
--- Thêm đối tác
-INSERT INTO tblPartner VALUES 
-('P001', 'CTCP ABC', 'Ha Noi', '0241234567'),
-('P002', 'CTCP XYZ', 'HCM', '0287654321');
+-- Khách hàng
+INSERT INTO tblClient (name, idCard, tel, address, email, note) VALUES
+('Nguyen Van A', '123456789', '0912345678', 'Ha Noi', 'a@gmail.com', 'Khách thân thiết'),
+('Tran Thi B', '987654321', '0987654321', 'HCM', 'b@gmail.com', 'Ưu tiên'),
+('Le Van C', '555555555', '0900000000', 'Da Nang', 'c@gmail.com', '');
 
--- Thêm mặt hàng (liên kết partner)
-INSERT INTO tblItem VALUES 
-('I001', 'Laptop Dell', 'cái', 15000000, 'P001'),
-('I002', 'Máy in HP', 'cái', 3000000, 'P001'),
-('I003', 'Camera Hikvision', 'cái', 2000000, 'P002'),
-('I004', 'Bàn phím cơ', 'cái', 800000, 'P002');
+-- Đối tác
+INSERT INTO tblPartner (name, address, tel) VALUES
+('CTCP ABC', 'Ha Noi', '0241234567'),
+('CTCP XYZ', 'HCM', '0287654321');
 
--- Thêm hợp đồng (liên kết client & partner)
-INSERT INTO tblContract VALUES 
-('CT001', '2024-05-01', 20000000, 6.5, 'C001', 'P001'),
-('CT002', '2024-05-10', 5000000, 7.2, 'C002', 'P002'),
-('CT003', '2024-06-01', 8000000, 5.0, 'C003', 'P001');
+-- Mặt hàng
+INSERT INTO tblItem (name, unit, price, tblPartnerid) VALUES
+('Laptop Dell', 'cái', 15000000, 1),
+('Máy in HP', 'cái', 3000000, 1),
+('Camera Hikvision', 'cái', 2000000, 2),
+('Bàn phím cơ', 'cái', 800000, 2);
 
--- Thêm chi tiết hợp đồng (liên kết hợp đồng & item)
-INSERT INTO tblItemDetail VALUES
-(1, 'CT001', 'I001'),
-(2, 'CT001', 'I002'),
-(3, 'CT002', 'I003'),
-(2, 'CT003', 'I004');
+-- Hợp đồng
+INSERT INTO tblContract (date, loanAmount, interestRate, tblClientid, tblPartnerid) VALUES
+('2024-05-01', 20000000, 6.5, 1, 1),
+('2024-05-10', 5000000, 7.2, 2, 2),
+('2024-06-01', 8000000, 5.0, 3, 1);
 
--- Thêm hóa đơn (liên kết client & contract)
-INSERT INTO tblBill VALUES
-('B001', '2024-06-01', 5000000, 5000000, '2024-06-01', 'Đã thanh toán', 'C001', 'CT001'),
-('B002', '2024-06-15', 2000000, 2000000, '2024-06-16', 'Đã thanh toán', 'C002', 'CT002'),
-('B003', '2024-07-01', 3000000, 0, NULL, 'Chưa thanh toán', 'C003', 'CT003');
+-- Chi tiết hợp đồng
+INSERT INTO tblItemDetail (quantity, tblContractid, tblItemid) VALUES
+(1, 1, 1), -- Hợp đồng 1, 1 Laptop Dell
+(2, 1, 2), -- Hợp đồng 1, 2 Máy in HP
+(3, 2, 3), -- Hợp đồng 2, 3 Camera Hikvision
+(2, 3, 4); -- Hợp đồng 3, 2 Bàn phím cơ
+
+-- Hóa đơn
+INSERT INTO tblBill (dueDate, amountDue, amountPaid, paymentDate, status, tblClientid, tblContractid) VALUES
+('2024-06-01', 5000000, 5000000, '2024-06-01', 'Đã thanh toán', 1, 1),
+('2024-06-15', 2000000, 2000000, '2024-06-16', 'Đã thanh toán', 2, 2),
+('2024-07-01', 3000000, 0, NULL, 'Chưa thanh toán', 3, 3);
