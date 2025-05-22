@@ -1,7 +1,7 @@
 package model;
 
 public class Partner {
-    private String id;
+    private int id;
     private String name;
     private String address;
     private String tel;
@@ -10,7 +10,7 @@ public class Partner {
         super();
     }
 
-    public Partner(String id, String name, String address, String tel) {
+    public Partner(int id, String name, String address, String tel) {
         super();
         this.id = id;
         this.name = name;
@@ -18,11 +18,11 @@ public class Partner {
         this.tel = tel;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.ArrayList;
 
 public class Contract {
-    private String id;
+    private int id;
     private Date date;
     private String company;
     private int loanAmount;
@@ -24,7 +24,7 @@ public class Contract {
         b = new ArrayList<Bill>();
     }
 
-    public Contract(String id, Date date, String company, int loanAmount, float interestRate, int totalAmount,
+    public Contract(int id, Date date, String company, int loanAmount, float interestRate, int totalAmount,
             String terms, int totalAmountPaid, int remainingDebt, Client c, Partner p) {
         super();
         this.id = id;
@@ -42,11 +42,11 @@ public class Contract {
         b = new ArrayList<Bill>();
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

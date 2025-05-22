@@ -1,7 +1,7 @@
 package model;
 
 public class Item {
-    private String id;
+    private int id;
     private String name;
     private String unit;
     private int price;
@@ -11,7 +11,7 @@ public class Item {
         super();
     }
 
-    public Item(String id, String name, String unit, int price, Partner p) {
+    public Item(int id, String name, String unit, int price, Partner p) {
         super();
         this.id = id;
         this.name = name;
@@ -20,11 +20,11 @@ public class Item {
         this.p = p;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

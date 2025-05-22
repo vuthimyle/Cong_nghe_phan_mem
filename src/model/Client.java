@@ -1,7 +1,7 @@
 package model;
 
 public class Client {
-    private String id;
+    private int id;
     private String name;
     private String idCard;
     private String tel;
@@ -13,7 +13,7 @@ public class Client {
         super();
     }
 
-    public Client(String id, String name, String idCard, String tel, String address, String email, String note){
+    public Client(int id, String name, String idCard, String tel, String address, String email, String note){
         super();
         this.id = id;
         this.name = name;
@@ -24,11 +24,11 @@ public class Client {
         this.note = note;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }   
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

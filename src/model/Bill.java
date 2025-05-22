@@ -3,7 +3,7 @@ package model;
 import java.sql.Date;
 
 public class Bill {
-    private String id;
+    private int id;
     private Date dueDate;
     private int amountDue;
     private int amountPaid;
@@ -16,7 +16,7 @@ public class Bill {
         super();
     }
 
-    public Bill(String id, Date dueDate, int amountDue, int amountPaid, int remainingAmount, Date paymentDate, String status, Client c) {
+    public Bill(int id, Date dueDate, int amountDue, int amountPaid, int remainingAmount, Date paymentDate, String status, Client c) {
         super();
         this.id = id;
         this.dueDate = dueDate;
@@ -28,11 +28,11 @@ public class Bill {
         this.c = c;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
